@@ -7,17 +7,13 @@ import os
 
 from typing import (Any, AnyStr, Dict, List, Sequence, Text, Union, cast)
 
+from . import loghandler
 from schema_salad.ref_resolver import file_uri
 from .process import (Process, shortname)
 from .resolver import ga4gh_tool_registries
 from .software_requirements import (SOFTWARE_REQUIREMENTS_ENABLED)
 
 _logger = logging.getLogger("cwltool")
-
-defaultStreamHandler = logging.StreamHandler()
-_logger.addHandler(defaultStreamHandler)
-_logger.setLevel(logging.INFO)
-
 
 def arg_parser():  # type: () -> argparse.ArgumentParser
     parser = argparse.ArgumentParser(description='Reference executor for Common Workflow Language')
@@ -193,7 +189,7 @@ def arg_parser():  # type: () -> argparse.ArgumentParser
     parser.add_argument("--default-container",
                         help="Specify a default docker container that will be used if the workflow fails to specify one.")
     parser.add_argument("--no-match-user", action="store_true",
-                        help="Disable passing the current uid to 'docker run --user`")
+                        help="Disable passing the current uid to `docker run --user`")
     parser.add_argument("--disable-net", action="store_true",
                         help="Use docker's default networking for containers;"
                              " the default is to enable networking.")
